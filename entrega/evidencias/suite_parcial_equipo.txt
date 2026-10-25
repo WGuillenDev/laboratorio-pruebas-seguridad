@@ -1,0 +1,29 @@
+Ejecutor: asistente autorizado por Wilberth
+Fecha UTC: 2026-10-25T20:45:03.687547+00:00
+Python: 3.14.7
+Base: 9525e75; cambios del bloque Wilberth sin commit
+Estado limpio: proceso Python nuevo; setUp crea datos por prueba
+Directorio: entrega/laboratorio_seguridad
+Comando: python -m unittest discover -s tests  -v
+test_docente_actualiza_nota_en_su_sede (test_laboratorio.SeguridadExpedientes.test_docente_actualiza_nota_en_su_sede) ... ok
+test_rojo_sesion_revocada_no_permita_lecturas (test_laboratorio.SeguridadExpedientes.test_rojo_sesion_revocada_no_permita_lecturas) ... FAIL
+test_tc01_sec01_estudiante_lee_su_expediente_sin_alterarlo (test_laboratorio.SeguridadWilberth.test_tc01_sec01_estudiante_lee_su_expediente_sin_alterarlo) ... ok
+test_tc03_sec01_administrador_lee_ambas_sedes_sin_alterarlas (test_laboratorio.SeguridadWilberth.test_tc03_sec01_administrador_lee_ambas_sedes_sin_alterarlas) ... ok
+test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos (test_laboratorio.SeguridadWilberth.test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos) ... ok
+test_tc07_sec02_estudiante_y_admin_no_modifican_notas (test_laboratorio.SeguridadWilberth.test_tc07_sec02_estudiante_y_admin_no_modifican_notas) ... ok
+
+======================================================================
+FAIL: test_rojo_sesion_revocada_no_permita_lecturas (test_laboratorio.SeguridadExpedientes.test_rojo_sesion_revocada_no_permita_lecturas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\dev\laboratorio-pruebas-seguridad\entrega\laboratorio_seguridad\tests\test_laboratorio.py", line 84, in test_rojo_sesion_revocada_no_permita_lecturas
+    self.assertEqual(401, codigo)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+AssertionError: 401 != 200
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+FAILED (failures=1)
+
+Codigo de salida: 1

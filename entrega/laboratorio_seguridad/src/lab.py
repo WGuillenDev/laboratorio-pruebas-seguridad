@@ -36,11 +36,23 @@ def autenticar(estado, token):
     return USUARIOS[sesion["usuario"]]
 
 
-def _estudiante_solicita_expediente_ajeno(usuario, expediente):
+def _puede_leer(usuario, expediente):
+    """Autoriza por propietario o sede; solo el administrador lee ambas sedes."""
+    if usuario["rol"] == "estudiante":
+        return expediente["estudiante"] == usuario["id"]
+    if usuario["rol"] == "docente":
+        return expediente["sede"] == usuario["sede"]
+    return usuario["rol"] == "administrador"
+
+
+def _nota_valida(nota):
+    """Rechaza bool, tipos no numéricos y valores fuera de [0, 100]."""
     return (
-        usuario["rol"] == "estudiante"
-        and expediente["estudiante"] != usuario["id"]
+        not isinstance(nota, bool)
+        and isinstance(nota, (int, float))
+        and 0 <= nota <= 100
     )
+
 
 def leer_expediente(estado, token, expediente_id):
     usuario = autenticar(estado, token)
@@ -49,9 +61,13 @@ def leer_expediente(estado, token, expediente_id):
     expediente = estado["expedientes"].get(expediente_id)
     if expediente is None:
         return 404, {"error": "No existe"}
-    if _estudiante_solicita_expediente_ajeno(usuario, expediente):
+    if not _puede_leer(usuario, expediente):
         return 403, {"error": "Operación denegada"}
-    estado["auditoria"].append({"accion": "lectura", "token": token, "id": expediente_id})
+    estado["auditoria"].append({
+        "accion": "lectura",
+        "usuario": usuario["id"],
+        "id": expediente_id,
+    })
     return 200, dict(expediente)
 
 
@@ -64,9 +80,9 @@ def actualizar_nota(estado, token, expediente_id, nota):
         return 404, {"error": "No existe"}
     if usuario["rol"] != "docente":
         return 403, {"error": "Operación denegada"}
-    if not isinstance(nota, (int, float)):
+    if not _nota_valida(nota):
         return 400, {"error": "Nota inválida"}
-    # TODO SEC-02/SEC-04: inspeccionar la sede y los valores de frontera.
+    # TODO SEC-02 (Jania): comprobar la sede del docente antes de modificar.
     expediente["nota"] = nota
     estado["auditoria"].append({"accion": "actualizacion", "token": token, "id": expediente_id})
     return 200, dict(expediente)

@@ -8,7 +8,11 @@ Verificar que la consulta de expedientes y la modificación de calificaciones re
 
 ## Estado actual
 
-El proyecto conserva el código base con defectos didácticos intencionales. La suite inicial contiene cuatro pruebas unitarias; dos están diseñadas para evidenciar fallos de autorización y revocación de sesiones. Las pruebas adicionales, correcciones y evidencias están pendientes de desarrollo y ejecución. El PDF está vacío, reservado para el informe, y los CSV contienen únicamente encabezados.
+El bloque de Wilberth contiene cuatro casos unitarios aprobados y dos casos HTTP comprobados antes y después de corregir. Se completaron los permisos de lectura por propietario/rol/sede, la validación de notas y la auditoría de lecturas sin tokens.
+
+La suite actual tiene seis métodos: cinco aprueban y uno falla por el defecto conocido de sesión revocada, pendiente del bloque de Jania. También están pendientes la autorización de modificación por sede, la auditoría de actualizaciones, la integración HTTP de los límites y el segundo ciclo TDD. El informe es un corte parcial; no representa una liberación del sistema.
+
+La versión editable actual está en [informe_seguridad.docx](../informe_seguridad.docx), con Arial 12, texto negro y tablas simples. El PDF incluido refleja el mismo avance parcial; al completar y revisar ambos bloques se exportará de nuevo el Word al PDF final exigido en la entrega.
 
 La campaña prevista comprende 12 casos distintos: 3 positivos, 6 negativos y 3 de frontera; al menos 8 automatizados, con pruebas unitarias y de integración, y 4 manuales por HTTP. Se documentarán dos ciclos TDD, revisión estática, inspección cruzada y dos ejecuciones finales en estado limpio.
 
@@ -28,12 +32,13 @@ Desde la carpeta donde se almacenará el repositorio:
 ```powershell
 git clone https://github.com/WGuillenDev/laboratorio-pruebas-seguridad.git
 cd laboratorio-pruebas-seguridad
+git switch wil
 python --version
 git --version
 cd entrega/laboratorio_seguridad
 ```
 
-Si ya está clonado, abrir una terminal en `entrega/laboratorio_seguridad` dentro del repositorio. Los comandos de pruebas y servidor siguientes se ejecutan desde esa carpeta.
+El avance de este corte se publica en `wil`; `main` solo lo incluirá después de aprobar el PR. Si ya está clonado, actualizar las referencias antes de seleccionar esa rama y abrir una terminal en `entrega/laboratorio_seguridad`. Los comandos de pruebas y servidor siguientes se ejecutan desde esa carpeta.
 
 ## Ejecutar las pruebas automatizadas
 
@@ -41,11 +46,29 @@ Si ya está clonado, abrir una terminal en `entrega/laboratorio_seguridad` dentr
 python -m unittest discover -s tests -v
 ```
 
-Las cuatro pruebas unitarias actuales no requieren iniciar el servidor. Cada prueba crea un estado independiente mediante `estado_inicial()` en `setUp`.
+Las seis pruebas unitarias actuales no requieren iniciar el servidor. Cada prueba crea un estado independiente mediante `estado_inicial()` en `setUp`.
 
-En la base se esperan dos fallos intencionales: lectura de un expediente ajeno y lectura con una sesión revocada. Esta descripción corresponde al diseño de la suite y no constituye un registro de ejecución. Los fallos deben analizarse y registrarse antes de corregirlos; no implican necesariamente un problema de instalación.
+Resultado observado de este corte: `Ran 6 tests` y `FAILED (failures=1)`. El único fallo es `test_rojo_sesion_revocada_no_permita_lecturas` (`401 != 200`): el defecto no se ocultó ni se corrigió antes de que Jania documente su TDD.
+
+Para ejecutar únicamente los cuatro casos automatizados de Wilberth:
+
+```powershell
+python -m unittest discover -s tests -k SeguridadWilberth -v
+```
+
+Resultado observado: `Ran 4 tests` y `OK`, en dos procesos independientes. La [verificación en la terminal de Wilberth](../evidencias/verificacion_wilberth.png) confirma tanto este bloque como el fallo pendiente de toda la suite.
 
 Las pruebas de integración se incorporarán durante el desarrollo. Este apartado se actualizará con sus condiciones de ejecución cuando estén implementadas.
+
+| Caso | Ejecución actual | Responsable |
+| --- | --- | --- |
+| TC-01, TC-03, TC-04, TC-07 | Unidad automatizada, clase `SeguridadWilberth` | Wilberth |
+| TC-05, TC-12 | Solicitudes curl; comandos, cuerpos y respuestas en evidencias antes/después | Wilberth, con ejecución asistida identificada |
+| TC-02, TC-08 | Ejemplos originales por completar; TC-08 ya demuestra un defecto | Jania |
+| TC-06, TC-09 | HTTP manual pendiente | Jania |
+| TC-10, TC-11 | Integración HTTP automatizada pendiente | Jania |
+
+Los diseños completos, estados y vínculos requisito-riesgo-caso están en [la matriz de trazabilidad](../matriz_trazabilidad.csv). Un método de ejemplo aprobado no acredita por sí solo todos los oráculos del caso planificado.
 
 ## Iniciar la API local
 
@@ -86,7 +109,7 @@ Las sesiones ausentes, desconocidas, revocadas o vencidas deben impedir el acces
 | Entrada inválida | `400` |
 | Recurso inexistente | `404` |
 
-Esta política describe el comportamiento que se debe verificar. El código inicial contiene defectos y puede incumplirla. Las denegaciones no deben incluir notas ni información protegida; las operaciones rechazadas deben conservar los expedientes sin cambios. Comprobar únicamente el código HTTP no basta para validar una prueba.
+Esta política describe el comportamiento que se debe verificar. Existen controles pendientes indicados en el estado actual. Las denegaciones no deben incluir notas ni información protegida; las operaciones rechazadas deben conservar los expedientes sin cambios. Comprobar únicamente el código HTTP no basta para validar una prueba.
 
 ## Solicitudes de referencia
 
@@ -116,6 +139,17 @@ curl.exe -i -X POST -H "Authorization: Bearer lab-ana" http://127.0.0.1:8765/ses
 
 Las solicitudes de actualización y revocación modifican el estado en memoria. Estos ejemplos no sustituyen los casos documentados ni sus evidencias.
 
+Para repetir TC-05, iniciar con datos limpios, consultar ambos expedientes como administrador antes y después de solicitar el 202 con `lab-maria`, y comprobar `403` sin campos protegidos ni cambios. La lectura del mismo recurso con `lab-pedro` debe devolver `200`.
+
+Para repetir TC-12 en PowerShell, reiniciar el servidor por variante y cambiar el cuerpo entre `{"nota":-1}`, `{"nota":101}`, `{"nota":"ochenta"}`, `{"nota":true}` y un entero de 401 cifras (1 seguido de 400 ceros). El entero se envía como número JSON, no como expresión `10**400`. Guardar el cuerpo en un archivo ASCII temporal evita problemas de comillas con curl en PowerShell:
+
+```powershell
+'{"nota":101}' | Set-Content -LiteralPath "$env:TEMP\nota-invalida-lab.json" -Encoding ascii
+curl.exe -i -H "Authorization: Bearer lab-maria" -H "Content-Type: application/json" --data-binary "@$env:TEMP\nota-invalida-lab.json" http://127.0.0.1:8765/expedientes/101/nota
+```
+
+Comparar ambos expedientes por GET autorizado antes y después de cada intento: se espera `400` y estado intacto. Los [registros antes](../evidencias/wilberth_api_antes.txt) y [después](../evidencias/wilberth_api_despues.txt) incluyen los comandos reales, los cuerpos exactos y los resultados, con reinicio por variante.
+
 ## Restablecer los datos sintéticos
 
 1. Detener el servidor con **Ctrl+C**.
@@ -130,6 +164,7 @@ Para repetir la suite unitaria en estado limpio, ejecutar de nuevo el comando de
 ```text
 entrega/
 ├── informe_seguridad.pdf
+├── informe_seguridad.docx
 ├── laboratorio_seguridad/
 │   ├── README.md
 │   ├── servidor.py
@@ -152,5 +187,8 @@ entrega/
 | `../hallazgos.csv` | Defectos demostrados, tratamiento y verificación |
 | `../matriz_trazabilidad.csv` | Vínculos entre requisitos, riesgos, casos y evidencia esperada |
 | `../informe_seguridad.pdf` | Informe técnico, resultados, indicadores y dictamen |
+| `../informe_seguridad.docx` | Fuente editable actual para completar y revisar el informe |
 
-La revisión estática examina el código sin ejecutarlo; las solicitudes HTTP evalúan el comportamiento dinámico. El informe y las evidencias se completarán con los resultados observados, diferenciando casos aprobados, fallidos, bloqueados y no ejecutados.
+La revisión estática examina el código sin ejecutarlo; las solicitudes HTTP evalúan el comportamiento dinámico. La [revisión estática](../evidencias/revision_estatica.md) identifica los controles pendientes. Las tareas de Jania, incluida la revisión y modificación del informe, se gestionan en el [issue de su bloque](https://github.com/WGuillenDev/laboratorio-pruebas-seguridad/issues/2).
+
+La matriz distingue casos aprobados, fallidos, bloqueados y no ejecutados. Las dos corridas parciales de Wilberth no sustituyen las dos ejecuciones finales completas después de integrar ambos bloques.

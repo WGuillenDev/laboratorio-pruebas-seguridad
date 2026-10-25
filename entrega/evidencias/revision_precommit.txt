@@ -1,0 +1,51 @@
+REVISION PREVIA AL COMMIT DEL BLOQUE DE WILBERTH
+Ejecutor: asistente autorizado por Wilberth
+Fecha UTC: 2026-10-25T21:28:46.088323+00:00
+Entorno: Windows; Python 3.12.14
+Base: 9525e75; cambios del bloque Wilberth sin commit
+Matriz: 12 casos distintos; 3 positivos, 6 negativos y 3 fronteras. Diseno completo con IDs, roles, datos, pasos, oraculo y evidencia.
+Reparto: 6 casos por integrante. Plan final: 8 automatizados y 4 manuales; no se confunde plan con ejecucion.
+Fase A: 5 activos, flujo, 5 amenazas razonadas, 6 requisitos observables y 4 criterios de aceptacion.
+Hallazgos: H-01/H-03/H-04 corregidos y verificados; H-02 y H-05 permanecen abiertos.
+Los hashes de codigo, pruebas y servidor coinciden con las ejecuciones registradas.
+TDD 1: tres etapas con logs, capturas, diffs y commits verificables; resumen RGB enlaza los originales.
+HTTP: TC-05 y las cinco variantes de TC-12 comprobados antes/despues con datos reiniciados y estado intacto; capturas de Wilberth incluidas.
+README: enlaces locales validos; requisitos, instalacion, comandos y reinicio de datos presentes.
+Portada confirmada por el usuario: ISW-622 Pruebas de Software; Jania Hernandez Dormuz; grupo Sabados; entrega viernes 30/10/2026.
+
+Comando: python -m unittest discover -s tests -v
+test_docente_actualiza_nota_en_su_sede (test_laboratorio.SeguridadExpedientes.test_docente_actualiza_nota_en_su_sede) ... ok
+test_rojo_sesion_revocada_no_permita_lecturas (test_laboratorio.SeguridadExpedientes.test_rojo_sesion_revocada_no_permita_lecturas) ... FAIL
+test_tc01_sec01_estudiante_lee_su_expediente_sin_alterarlo (test_laboratorio.SeguridadWilberth.test_tc01_sec01_estudiante_lee_su_expediente_sin_alterarlo) ... ok
+test_tc03_sec01_administrador_lee_ambas_sedes_sin_alterarlas (test_laboratorio.SeguridadWilberth.test_tc03_sec01_administrador_lee_ambas_sedes_sin_alterarlas) ... ok
+test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos (test_laboratorio.SeguridadWilberth.test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos) ... ok
+test_tc07_sec02_estudiante_y_admin_no_modifican_notas (test_laboratorio.SeguridadWilberth.test_tc07_sec02_estudiante_y_admin_no_modifican_notas) ... ok
+
+======================================================================
+FAIL: test_rojo_sesion_revocada_no_permita_lecturas (test_laboratorio.SeguridadExpedientes.test_rojo_sesion_revocada_no_permita_lecturas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\dev\laboratorio-pruebas-seguridad\entrega\laboratorio_seguridad\tests\test_laboratorio.py", line 84, in test_rojo_sesion_revocada_no_permita_lecturas
+    self.assertEqual(401, codigo)
+AssertionError: 401 != 200
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+Codigo de salida: 1
+Conclusion del control: cuatro pruebas de Wilberth aprobadas. El unico fallo es la sesion revocada de Jania; no se oculta.
+
+PENDIENTES GLOBALES: segundo TDD, completar 8 automatizados e integracion, dos HTTP de Jania, inspeccion cruzada humana, reproducibilidad con README, dos corridas finales, cierre de hallazgos, metricas y dictamen final, ZIP y aportes en dos dias distintos.
+Todos los commits actuales de Wilberth son del 25/10/2026; la condicion de dias distintos aun no esta cumplida.
+El bloque tecnico de Wilberth esta listo para commit de avance; el producto completo aun no esta listo para entrega final.
+
+DOCUMENTOS Y PRESENTACION
+Portada completa: curso, codigo ISW-622, dos integrantes, grupo Sabados, entrega 30/10/2026, nombre y version del proyecto.
+Word revisado por renderizado: 18 paginas carta, margenes uniformes, Arial 12 negro, tablas simples, sin paginas vacias ni desbordamientos.
+Indice: seis enlaces internos validados; destinos paginas 1,3,5,7,13,17.
+Autor y ultima modificacion del Word: Wilberth Guillen. Autor PDF: Wilberth Guillen.
+PDF sincronizado con el Word de este mismo corte parcial; las 18 paginas son visualmente identicas. No representa la entrega final del equipo.
+La declaracion de uso de IA requerida se conserva. El Word permanece en negro; las fases RGB se identifican en tdd1_resumen_rgb.html.
+Revision tecnica ejecutada con Python 3.12.14 del runtime; evidencias previas y verificaciones de Wilberth con Python 3.14.7.

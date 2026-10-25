@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Evidencias del primer ciclo TDD</title>
+<style>
+body { font: 12pt Arial, sans-serif; color: #000; margin: 2rem auto; max-width: 1100px; padding: 0 1rem; line-height: 1.4; }
+h1, h2 { font-size: 12pt; }
+.rojo { color: rgb(185,28,28); }
+.verde { color: rgb(21,128,61); }
+.refactor { color: rgb(29,78,216); }
+img { display: block; max-width: 100%; height: auto; margin: 1rem 0 2rem; }
+</style>
+</head>
+<body>
+<h1>Primer ciclo TDD de autorización de lectura</h1>
+<p>SEC-01 y SEC-05 · TC-04 · H-01 · Wilberth Guillen. Registro de las tres fases con identificación RGB. Las capturas y salidas originales se conservan sin modificaciones.</p>
+<h2 class="rojo">ROJO · Prueba fallida por el motivo esperado · 4cf28d2</h2>
+<p>Una prueba falló porque se esperaba 403 y se obtuvo 200.</p>
+<p><a href="tdd1_rojo.txt">Salida original</a> · <a href="tdd1_rojo_cambios.patch">Cambio de la prueba</a> · <a href="tdd1_rojo.png">Captura a tamaño original</a></p>
+<img src="tdd1_rojo.png" alt="Prueba de expediente ajeno falla con 403 esperado y 200 observado">
+<h2 class="verde">VERDE · Cambio mínimo y prueba aprobada · e4cc9fc</h2>
+<p>Una prueba aprobada: se deniega la lectura, no aparecen campos protegidos y los expedientes permanecen intactos.</p>
+<p><a href="tdd1_verde.txt">Salida original</a> · <a href="tdd1_verde_cambios.patch">Cambio mínimo</a> · <a href="tdd1_verde.png">Captura a tamaño original</a></p>
+<img src="tdd1_verde.png" alt="Prueba del escenario de lectura ajena aprobada después del cambio mínimo">
+<h2 class="refactor">REFACTOR · Mejora de estructura y regresión · 9525e75</h2>
+<p>Tres pruebas relacionadas aprobaron después de extraer la condición. La suite completa conservó el fallo conocido de sesión revocada, que corresponde al bloque pendiente de Jania.</p>
+<p><a href="tdd1_refactor.txt">Regresión relacionada</a> · <a href="tdd1_refactor_cambios.patch">Cambio de estructura</a> · <a href="tdd1_suite_completa.txt">Suite completa y fallo pendiente</a> · <a href="tdd1_refactor.png">Captura a tamaño original</a></p>
+<img src="tdd1_refactor.png" alt="Tres pruebas relacionadas aprobadas tras el refactor">
+<p>Descripción completa y limitaciones: <a href="tdd1_registro.md">registro del ciclo TDD</a>. El resumen no acredita el segundo ciclo ni la aprobación final del producto.</p>
+</body>
+</html>

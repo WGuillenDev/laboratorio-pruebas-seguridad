@@ -1,0 +1,10 @@
+{
+  "base": "9525e75",
+  "estado": "Cambios autonomos de Wilberth sin commit; hashes identifican codigo ejecutado",
+  "ejecutor": "Asistente autorizado; verificacion posterior de Wilberth en verificacion_wilberth.png",
+  "sha256": {
+    "entrega/laboratorio_seguridad/src/lab.py": "91bbac388e30076f8ab058042133e89fd5872d4512f5a08984ef4179e6aa7442",
+    "entrega/laboratorio_seguridad/tests/test_laboratorio.py": "62fb1cac27be6a25a4780ba91ebb6682bf98e8ba5e86f4d28f848815dcdc5e71",
+    "entrega/laboratorio_seguridad/servidor.py": "f8d4805a505dda9d31d3c082ae426e24889b9c6d80a0576b1de42a6550631cec"
+  }
+}

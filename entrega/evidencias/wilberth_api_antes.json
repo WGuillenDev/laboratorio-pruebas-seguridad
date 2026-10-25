@@ -1,0 +1,77 @@
+[
+  {
+    "caso": "TC-05",
+    "codigo": 200,
+    "respuesta": {
+      "id": "202",
+      "estudiante": "luis",
+      "sede": "Pacifico",
+      "nota": 91
+    },
+    "expedientes_intactos": true,
+    "docente_sede_propia": 200,
+    "estado": "fallido"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "inferior",
+    "codigo": 200,
+    "respuesta": {
+      "id": "101",
+      "estudiante": "ana",
+      "sede": "Central",
+      "nota": -1
+    },
+    "expedientes_intactos": false,
+    "estado": "fallido"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "superior",
+    "codigo": 200,
+    "respuesta": {
+      "id": "101",
+      "estudiante": "ana",
+      "sede": "Central",
+      "nota": 101
+    },
+    "expedientes_intactos": false,
+    "estado": "fallido"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "texto",
+    "codigo": 400,
+    "respuesta": {
+      "error": "Nota inválida"
+    },
+    "expedientes_intactos": true,
+    "estado": "aprobado"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "booleano",
+    "codigo": 200,
+    "respuesta": {
+      "id": "101",
+      "estudiante": "ana",
+      "sede": "Central",
+      "nota": true
+    },
+    "expedientes_intactos": false,
+    "estado": "fallido"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "entero_grande",
+    "codigo": 200,
+    "respuesta": {
+      "id": "101",
+      "estudiante": "ana",
+      "sede": "Central",
+      "nota": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    },
+    "expedientes_intactos": false,
+    "estado": "fallido"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "caso": "TC-05",
+    "codigo": 403,
+    "respuesta": {
+      "error": "Operación denegada"
+    },
+    "expedientes_intactos": true,
+    "docente_sede_propia": 200,
+    "estado": "aprobado"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "inferior",
+    "codigo": 400,
+    "respuesta": {
+      "error": "Nota inválida"
+    },
+    "expedientes_intactos": true,
+    "estado": "aprobado"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "superior",
+    "codigo": 400,
+    "respuesta": {
+      "error": "Nota inválida"
+    },
+    "expedientes_intactos": true,
+    "estado": "aprobado"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "texto",
+    "codigo": 400,
+    "respuesta": {
+      "error": "Nota inválida"
+    },
+    "expedientes_intactos": true,
+    "estado": "aprobado"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "booleano",
+    "codigo": 400,
+    "respuesta": {
+      "error": "Nota inválida"
+    },
+    "expedientes_intactos": true,
+    "estado": "aprobado"
+  },
+  {
+    "caso": "TC-12",
+    "variante": "entero_grande",
+    "codigo": 400,
+    "respuesta": {
+      "error": "Nota inválida"
+    },
+    "expedientes_intactos": true,
+    "estado": "aprobado"
+  }
+]

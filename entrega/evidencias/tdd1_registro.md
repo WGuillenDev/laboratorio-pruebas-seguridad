@@ -2,6 +2,8 @@
 
 Requisito: SEC-01. Caso planificado: TC-04. Hallazgo: H-01. Responsable: Wilberth.
 
+Resumen visual de las tres fases con identificación RGB y enlaces a las evidencias originales: [tdd1_resumen_rgb.html](tdd1_resumen_rgb.html). El informe editable conserva el formato negro solicitado por el equipo.
+
 ## ROJO — ejecutado
 
 - Fecha de la sesión: 25 de octubre de 2026, Costa Rica.
@@ -75,4 +77,8 @@ Evidencias: [salida original de toda la suite](tdd1_suite_completa.txt) y [captu
 
 Se conservaron las tres etapas del escenario TC-04: rojo por la causa esperada, verde con el cambio mínimo y refactor con el caso objetivo y dos casos relacionados aprobados. H-01 se clasifica como corregido y verificado para el acceso de estudiante a expediente ajeno. Esto no cierra la totalidad de SEC-01: aún corresponde ampliar y comprobar la política de lectura de los demás roles.
 
-La suite completa todavía no está en verde por el defecto de sesión ya conocido. No se omite ni se altera esa prueba para aparentar aprobación total. Esta ejecución tampoco sustituye las dos ejecuciones finales en limpio después de integrar ambos bloques. El commit del refactor se identificará en el historial cuando Wilberth lo cree; el diff preservado identifica el cambio respecto de `e4cc9fc`.
+La suite completa todavía no está en verde por el defecto de sesión ya conocido. No se omite ni se altera esa prueba para aparentar aprobación total. Esta ejecución tampoco sustituye las dos ejecuciones finales en limpio después de integrar ambos bloques. El refactor quedó guardado en `9525e75`; el diff preservado identifica el cambio respecto de `e4cc9fc`.
+
+## Evolución posterior de los nombres
+
+Después del ciclo, durante la ampliación del bloque de Wilberth, la prueba histórica de acceso ajeno pasó a llamarse `test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos`, en `SeguridadWilberth`. Los logs anteriores conservan los nombres que existían en cada commit. Para reproducir el escenario en la versión actual, usar `python -m unittest discover -s tests -k tc04 -v`; para repetir el estado histórico, consultar el commit correspondiente sin sobrescribir la copia de trabajo del equipo.

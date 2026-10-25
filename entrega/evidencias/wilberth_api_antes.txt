@@ -1,0 +1,307 @@
+Ejecutor: asistente autorizado por Wilberth; solicitudes curl locales, etapa antes
+Fecha UTC: 2026-10-25T20:44:45.733310+00:00
+Python: 3.14.7
+Reinicio de datos: detener y volver a iniciar servidor.py entre escenarios/variantes.
+El proceso escuchara exclusivamente en 127.0.0.1:8765.
+
+TC-05: docente Central intenta consultar Pacifico
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-maria" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-pedro" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Resultado de comprobaciones: {"caso": "TC-05", "codigo": 200, "respuesta": {"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}, "expedientes_intactos": true, "docente_sede_propia": 200, "estado": "fallido"}
+
+TC-12: variante inferior; servidor reiniciado
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Cuerpo JSON: {"nota": -1}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X POST -H "Authorization: Bearer lab-maria" -H "Content-Type: application/json" --data-binary @C:\Users\wilbe\AppData\Local\Temp\http-wilberth-30epsaeh\payload.json http://127.0.0.1:8765/expedientes/101/nota
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": -1}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": -1}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Resultado de comprobaciones: {"caso": "TC-12", "variante": "inferior", "codigo": 200, "respuesta": {"id": "101", "estudiante": "ana", "sede": "Central", "nota": -1}, "expedientes_intactos": false, "estado": "fallido"}
+
+TC-12: variante superior; servidor reiniciado
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Cuerpo JSON: {"nota": 101}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X POST -H "Authorization: Bearer lab-maria" -H "Content-Type: application/json" --data-binary @C:\Users\wilbe\AppData\Local\Temp\http-wilberth-30epsaeh\payload.json http://127.0.0.1:8765/expedientes/101/nota
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:46 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 66
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 101}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 66
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 101}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Resultado de comprobaciones: {"caso": "TC-12", "variante": "superior", "codigo": 200, "respuesta": {"id": "101", "estudiante": "ana", "sede": "Central", "nota": 101}, "expedientes_intactos": false, "estado": "fallido"}
+
+TC-12: variante texto; servidor reiniciado
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Cuerpo JSON: {"nota": "ochenta"}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X POST -H "Authorization: Bearer lab-maria" -H "Content-Type: application/json" --data-binary @C:\Users\wilbe\AppData\Local\Temp\http-wilberth-30epsaeh\payload.json http://127.0.0.1:8765/expedientes/101/nota
+HTTP/1.0 400 Bad Request
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 27
+
+{"error": "Nota inválida"}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Resultado de comprobaciones: {"caso": "TC-12", "variante": "texto", "codigo": 400, "respuesta": {"error": "Nota inválida"}, "expedientes_intactos": true, "estado": "aprobado"}
+
+TC-12: variante booleano; servidor reiniciado
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Cuerpo JSON: {"nota": true}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X POST -H "Authorization: Bearer lab-maria" -H "Content-Type: application/json" --data-binary @C:\Users\wilbe\AppData\Local\Temp\http-wilberth-30epsaeh\payload.json http://127.0.0.1:8765/expedientes/101/nota
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": true}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": true}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:47 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Resultado de comprobaciones: {"caso": "TC-12", "variante": "booleano", "codigo": 200, "respuesta": {"id": "101", "estudiante": "ana", "sede": "Central", "nota": true}, "expedientes_intactos": false, "estado": "fallido"}
+
+TC-12: variante entero_grande; servidor reiniciado
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:48 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 65
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:48 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Cuerpo JSON: {"nota": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X POST -H "Authorization: Bearer lab-maria" -H "Content-Type: application/json" --data-binary @C:\Users\wilbe\AppData\Local\Temp\http-wilberth-30epsaeh\payload.json http://127.0.0.1:8765/expedientes/101/nota
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:48 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 464
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:48 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 464
+
+{"id": "101", "estudiante": "ana", "sede": "Central", "nota": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}
+Comando real: curl.exe --silent --show-error --max-time 5 -i -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.14.7
+Date: Sun, 25 Oct 2026 20:44:48 GMT
+Content-Type: application/json; charset=utf-8
+Cache-Control: no-store
+Content-Length: 67
+
+{"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+Resultado de comprobaciones: {"caso": "TC-12", "variante": "entero_grande", "codigo": 200, "respuesta": {"id": "101", "estudiante": "ana", "sede": "Central", "nota": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000}, "expedientes_intactos": false, "estado": "fallido"}
