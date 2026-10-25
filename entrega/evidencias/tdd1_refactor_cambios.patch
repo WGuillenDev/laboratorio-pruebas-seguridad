@@ -1,0 +1,26 @@
+diff --git a/entrega/laboratorio_seguridad/src/lab.py b/entrega/laboratorio_seguridad/src/lab.py
+index 8b6b560..9766eff 100644
+--- a/entrega/laboratorio_seguridad/src/lab.py
++++ b/entrega/laboratorio_seguridad/src/lab.py
+@@ -36,6 +36,12 @@ def autenticar(estado, token):
+     return USUARIOS[sesion["usuario"]]
+ 
+ 
++def _estudiante_solicita_expediente_ajeno(usuario, expediente):
++    return (
++        usuario["rol"] == "estudiante"
++        and expediente["estudiante"] != usuario["id"]
++    )
++
+ def leer_expediente(estado, token, expediente_id):
+     usuario = autenticar(estado, token)
+     if usuario is None:
+@@ -43,7 +49,7 @@ def leer_expediente(estado, token, expediente_id):
+     expediente = estado["expedientes"].get(expediente_id)
+     if expediente is None:
+         return 404, {"error": "No existe"}
+-    if usuario["rol"] == "estudiante" and expediente["estudiante"] != usuario["id"]:
++    if _estudiante_solicita_expediente_ajeno(usuario, expediente):
+         return 403, {"error": "Operación denegada"}
+     estado["auditoria"].append({"accion": "lectura", "token": token, "id": expediente_id})
+     return 200, dict(expediente)

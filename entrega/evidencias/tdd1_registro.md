@@ -33,7 +33,7 @@ El encabezado `NativeCommandError` es el tratamiento de stderr por PowerShell du
 
 Wilberth añadió a `leer_expediente` una condición antes de registrar y devolver el expediente: si el usuario es estudiante y el titular del expediente no coincide con su identidad, devolver `403` con un mensaje genérico. Se corrigió la sangría de ese bloque con asistencia; no se cambió el oráculo de la prueba.
 
-La base de esta etapa es el commit rojo `4cf28d2`; la modificación funcional aún estaba en la copia de trabajo al ejecutarse. El [diff del cambio mínimo](tdd1_verde_cambios.patch) permite identificarla antes del commit verde.
+La base de esta etapa es el commit rojo `4cf28d2`; la modificación funcional aún estaba en la copia de trabajo al ejecutarse. El [diff del cambio mínimo](tdd1_verde_cambios.patch) identifica ese cambio, posteriormente guardado en el commit verde `e4cc9fc`.
 
 Desde `entrega/laboratorio_seguridad`, Wilberth ejecutó:
 
@@ -45,6 +45,34 @@ Resultado real: una prueba ejecutada en 0.000 segundos; `OK`. En esta ejecución
 
 Evidencias: [salida original](tdd1_verde.txt), [captura aportada por Wilberth](tdd1_verde.png) y [diff](tdd1_verde_cambios.patch). El encabezado `NativeCommandError` de PowerShell también aparece ante `ok`; el resultado de unittest es `OK`.
 
-## REFACTOR — pendiente
+## REFACTOR — ejecutado
 
-Pendiente de mejora de estructura, repetición de la prueba y regresión de los casos relacionados. El defecto de sesiones corresponde al bloque de Jania y no se dará por corregido durante este ciclo.
+Wilberth extrajo la condición a `_estudiante_solicita_expediente_ajeno(usuario, expediente)` y reemplazó la expresión original por una llamada a esa función. Conservó la misma regla y la misma respuesta de denegación. La base es el commit verde `e4cc9fc`; el refactor estaba sin commit al ejecutar la regresión.
+
+Desde `entrega/laboratorio_seguridad`, ejecutó:
+
+```powershell
+python -m unittest discover -s tests -k estudiante -k docente -v 2>&1 | Tee-Object -FilePath ..\evidencias\tdd1_refactor.txt
+```
+
+Resultado observado: tres pruebas ejecutadas en 0.000 segundos; `OK`. Pasan la consulta del expediente propio, la denegación de expediente ajeno y la modificación legítima de nota por el docente. Esta ejecución comprueba el caso objetivo y la regresión de los casos seleccionados; no es una ejecución de toda la suite.
+
+Evidencias: [salida original](tdd1_refactor.txt), [captura aportada por Wilberth](tdd1_refactor.png) y [diff del refactor](tdd1_refactor_cambios.patch).
+
+### Suite completa después del refactor
+
+Wilberth ejecutó desde `entrega/laboratorio_seguridad`:
+
+```powershell
+python -m unittest discover -s tests -v 2>&1 | Tee-Object -FilePath ..\evidencias\tdd1_suite_completa.txt
+```
+
+Resultado real: cuatro pruebas ejecutadas en 0.029 segundos; tres aprobadas y una fallida. Aprueban la consulta propia, la modificación legítima del docente y el rechazo del expediente ajeno. Falla únicamente `test_rojo_sesion_revocada_no_permita_lecturas`, con `401 != 200`, correspondiente a H-02 y al bloque pendiente de Jania.
+
+Evidencias: [salida original de toda la suite](tdd1_suite_completa.txt) y [captura aportada por Wilberth](tdd1_suite_completa.png).
+
+### Balance del ciclo
+
+Se conservaron las tres etapas del escenario TC-04: rojo por la causa esperada, verde con el cambio mínimo y refactor con el caso objetivo y dos casos relacionados aprobados. H-01 se clasifica como corregido y verificado para el acceso de estudiante a expediente ajeno. Esto no cierra la totalidad de SEC-01: aún corresponde ampliar y comprobar la política de lectura de los demás roles.
+
+La suite completa todavía no está en verde por el defecto de sesión ya conocido. No se omite ni se altera esa prueba para aparentar aprobación total. Esta ejecución tampoco sustituye las dos ejecuciones finales en limpio después de integrar ambos bloques. El commit del refactor se identificará en el historial cuando Wilberth lo cree; el diff preservado identifica el cambio respecto de `e4cc9fc`.
