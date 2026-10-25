@@ -9,7 +9,7 @@ Requisito: SEC-01. Caso planificado: TC-04. Hallazgo: H-01. Responsable: Wilbert
 - Base del proyecto: `3a27a6f8aca674c3459b377e044e3dc30f405a4e`.
 - Estado al ejecutar: prueba modificada por Wilberth en su copia de trabajo; `src/lab.py` sin cambios frente a la base.
 - Cambio de la prueba: copia profunda de expedientes antes de solicitar el 202 con `lab-ana`; aserciones de 403, ausencia de campos protegidos y conservación de expedientes.
-- Identificación del cambio previo al commit: [tdd1_rojo_cambios.patch](tdd1_rojo_cambios.patch), relativo a la base indicada. El commit de esta etapa se identificará en el historial una vez creado.
+- Commit de la etapa roja: `4cf28d2`. El [tdd1_rojo_cambios.patch](tdd1_rojo_cambios.patch) conserva también el cambio de la prueba relativo a la base indicada.
 
 Desde `entrega/laboratorio_seguridad`, Wilberth ejecutó:
 
@@ -29,9 +29,21 @@ Evidencias conservadas:
 
 El encabezado `NativeCommandError` es el tratamiento de stderr por PowerShell durante la captura; la causa funcional se identifica en `AssertionError: 403 != 200`.
 
-## VERDE — pendiente
+## VERDE — ejecutado
 
-Pendiente de cambio mínimo en la autorización de lectura y ejecución de la prueba por Wilberth.
+Wilberth añadió a `leer_expediente` una condición antes de registrar y devolver el expediente: si el usuario es estudiante y el titular del expediente no coincide con su identidad, devolver `403` con un mensaje genérico. Se corrigió la sangría de ese bloque con asistencia; no se cambió el oráculo de la prueba.
+
+La base de esta etapa es el commit rojo `4cf28d2`; la modificación funcional aún estaba en la copia de trabajo al ejecutarse. El [diff del cambio mínimo](tdd1_verde_cambios.patch) permite identificarla antes del commit verde.
+
+Desde `entrega/laboratorio_seguridad`, Wilberth ejecutó:
+
+```powershell
+python -m unittest discover -s tests -k test_rojo_estudiante_no_consulta_expediente_ajeno -v 2>&1 | Tee-Object -FilePath ..\evidencias\tdd1_verde.txt
+```
+
+Resultado real: una prueba ejecutada en 0.000 segundos; `OK`. En esta ejecución pasan las aserciones de código `403`, ausencia de los campos `id`, `estudiante`, `sede` y `nota`, y conservación de los expedientes. La evidencia respalda el escenario de estudiante sobre expediente ajeno; no demuestra todavía la política completa de todos los roles ni constituye una ejecución de regresión.
+
+Evidencias: [salida original](tdd1_verde.txt), [captura aportada por Wilberth](tdd1_verde.png) y [diff](tdd1_verde_cambios.patch). El encabezado `NativeCommandError` de PowerShell también aparece ante `ok`; el resultado de unittest es `OK`.
 
 ## REFACTOR — pendiente
 
