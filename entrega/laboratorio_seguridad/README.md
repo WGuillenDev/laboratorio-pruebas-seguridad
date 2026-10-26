@@ -6,15 +6,11 @@ Evaluación de seguridad de una API local de expedientes académicos mediante re
 
 Verificar que la consulta de expedientes y la modificación de calificaciones respetan los permisos de cada rol y sede, la validez de las sesiones y las reglas de validación. Los resultados permitirán documentar defectos, comprobar sus correcciones y fundamentar una decisión de liberación considerando el riesgo residual.
 
-## Estado actual
+## Estado actual (versión `8e98b14`)
 
-El bloque de Wilberth contiene cuatro casos unitarios aprobados y dos casos HTTP comprobados antes y después de corregir. Se completaron los permisos de lectura por propietario/rol/sede, la validación de notas y la auditoría de lecturas sin tokens.
-
-La suite actual tiene seis métodos: cinco aprueban y uno falla por el defecto conocido de sesión revocada, pendiente del bloque de Jania. También están pendientes la autorización de modificación por sede, la auditoría de actualizaciones, la integración HTTP de los límites y el segundo ciclo TDD. El informe es un corte parcial; no representa una liberación del sistema.
-
-La versión editable actual está en [informe_seguridad.docx](../informe_seguridad.docx), con Arial 12, texto negro y tablas simples. El PDF incluido refleja el mismo avance parcial; al completar y revisar ambos bloques se exportará de nuevo el Word al PDF final exigido en la entrega.
-
-La campaña prevista comprende 12 casos distintos: 3 positivos, 6 negativos y 3 de frontera; al menos 8 automatizados, con pruebas unitarias y de integración, y 4 manuales por HTTP. Se documentarán dos ciclos TDD, revisión estática, inspección cruzada y dos ejecuciones finales en estado limpio.
+- Corregidos: lectura por titular, rol y sede (H-01, H-03); validación de notas (H-04); auditoría de lecturas sin token (H-05, parte de lectura).
+- Abiertos (bloque de Jania): sesión revocada/expirada (H-02), cambio de nota entre sedes (H-06) y auditoría de actualizaciones (H-05).
+- Dictamen provisional: **no liberar**. Los resultados, indicadores y el dictamen están en [informe_seguridad.pdf](../informe_seguridad.pdf).
 
 **Uso exclusivamente local:** ejecutar el servidor en `127.0.0.1` y utilizar únicamente las cuentas y los datos sintéticos proporcionados. La autenticación con tokens ficticios es didáctica y no es apta para producción. No exponer el servidor a Internet ni conectarlo a información real.
 
@@ -48,7 +44,7 @@ python -m unittest discover -s tests -v
 
 Las seis pruebas unitarias actuales no requieren iniciar el servidor. Cada prueba crea un estado independiente mediante `estado_inicial()` en `setUp`.
 
-Resultado observado de este corte: `Ran 6 tests` y `FAILED (failures=1)`. El único fallo es `test_rojo_sesion_revocada_no_permita_lecturas` (`401 != 200`): el defecto no se ocultó ni se corrigió antes de que Jania documente su TDD.
+Resultado esperado en esta versión: `Ran 6 tests` y `FAILED (failures=1)`. El único fallo es `test_rojo_sesion_revocada_no_permita_lecturas` (`401 != 200`), que demuestra el defecto H-02. Es un fallo del producto, no del entorno: se conserva como rojo del segundo ciclo TDD.
 
 Para ejecutar únicamente los cuatro casos automatizados de Wilberth:
 
@@ -56,14 +52,14 @@ Para ejecutar únicamente los cuatro casos automatizados de Wilberth:
 python -m unittest discover -s tests -k SeguridadWilberth -v
 ```
 
-Resultado observado: `Ran 4 tests` y `OK`, en dos procesos independientes. La [verificación en la terminal de Wilberth](../evidencias/verificacion_wilberth.png) confirma tanto este bloque como el fallo pendiente de toda la suite.
+Resultado esperado: `Ran 4 tests` y `OK`.
 
-Las pruebas de integración se incorporarán durante el desarrollo. Este apartado se actualizará con sus condiciones de ejecución cuando estén implementadas.
+Las pruebas de integración HTTP (TC-10, TC-11) se agregarán en el bloque de Jania; este apartado indicará entonces cómo ejecutarlas.
 
 | Caso | Ejecución actual | Responsable |
 | --- | --- | --- |
 | TC-01, TC-03, TC-04, TC-07 | Unidad automatizada, clase `SeguridadWilberth` | Wilberth |
-| TC-05, TC-12 | Solicitudes curl; comandos, cuerpos y respuestas en evidencias antes/después | Wilberth, con ejecución asistida identificada |
+| TC-05, TC-12 | HTTP manual con curl; ver "Solicitudes de referencia" | Wilberth |
 | TC-02, TC-08 | Ejemplos originales por completar; TC-08 ya demuestra un defecto | Jania |
 | TC-06, TC-09 | HTTP manual pendiente | Jania |
 | TC-10, TC-11 | Integración HTTP automatizada pendiente | Jania |

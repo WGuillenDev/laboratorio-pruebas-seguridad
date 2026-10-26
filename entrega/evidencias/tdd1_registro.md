@@ -2,7 +2,7 @@
 
 Requisito: SEC-01. Caso planificado: TC-04. Hallazgo: H-01. Responsable: Wilberth.
 
-Resumen visual de las tres fases con identificación RGB y enlaces a las evidencias originales: [tdd1_resumen_rgb.html](tdd1_resumen_rgb.html). El informe editable conserva el formato negro solicitado por el equipo.
+Resumen visual de las tres fases con identificación RGB y enlaces a las evidencias originales: [tdd1_resumen_rgb.html](tdd1_resumen_rgb.html). El informe (sección 5 y Anexo A) identifica las fases con los mismos colores RGB: rojo, verde y azul.
 
 ## ROJO — ejecutado
 
