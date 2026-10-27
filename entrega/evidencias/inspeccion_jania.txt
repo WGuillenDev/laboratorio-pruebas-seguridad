@@ -1,0 +1,12 @@
+Código inspeccionado: C:\Users\herna\Documents\Laboratorio_QA\equipo\repo\entrega\laboratorio_seguridad\src\lab.py, función _puede_leer
+
+M-L1  DETECTADO  Estudiante lee cualquier expediente    -> test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos
+M-L2  SOBREVIVE  Docente lee cualquier sede             -> ninguna prueba automatizada falla
+M-L3  DETECTADO  Administrador no puede leer            -> test_tc03_sec01_administrador_lee_ambas_sedes_sin_alterarlas
+
+Revisión de TC-01 y TC-04 (oráculos):
+  TC-01: estado intacto=True | sin datos protegidos=True | auditoría verificada=True
+  TC-04: estado intacto=True | sin datos protegidos=True | auditoría verificada=False
+
+Orden de controles en leer_expediente: autenticar -> existe (404) -> _puede_leer (403) -> auditoría
+¿Se audita la lectura denegada (403)? No: solo se registran las lecturas permitidas
