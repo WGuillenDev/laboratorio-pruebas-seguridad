@@ -27,12 +27,15 @@ def estado_inicial():
     }
 
 
+def _sesion_vigente(sesion):
+    """SEC-03: la sesión existe y no fue revocada ni expiró."""
+    return sesion is not None and not sesion["revocada"] and not sesion["expirada"]
+
+
 def autenticar(estado, token):
     """Recibe tokens SINTETICOS; no implementa autenticación de producción."""
     sesion = estado["sesiones"].get(token)
-    if sesion is None:
-        return None
-    if sesion["revocada"] or sesion["expirada"]:
+    if not _sesion_vigente(sesion):
         return None
     return USUARIOS[sesion["usuario"]]
 
