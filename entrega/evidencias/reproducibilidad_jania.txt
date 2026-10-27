@@ -1,0 +1,62 @@
+
+[1] Clonar el repositorio (README: Requisitos e instalación)
+    > git clone https://github.com/WGuillenDev/laboratorio-pruebas-seguridad.git
+    Cloning into 'laboratorio-pruebas-seguridad'...
+    fatal: unable to access 'https://github.com/WGuillenDev/laboratorio-pruebas-seguridad.git/': Could not resolve host: github.com
+    => PROBLEMA (código 128)
+
+[2] Cambiar a la rama indicada
+    > git switch wil
+    [WinError 267] El nombre del directorio no es válido
+    => PROBLEMA (código -1)
+
+[3] Comprobar Python con el comando del README
+    > python --version
+    [WinError 267] El nombre del directorio no es válido
+    => PROBLEMA (código -1)
+
+[3b] Alternativa del lanzador de Windows (no está en el README)
+    > py --version
+    [WinError 267] El nombre del directorio no es válido
+    => PROBLEMA (código -1)
+
+[4] Comprobar Git
+    > git --version
+    [WinError 267] El nombre del directorio no es válido
+    => PROBLEMA (código -1)
+
+[5] Ejecutar la suite completa (README: 'Ran 6 tests' y 'FAILED (failures=1)')
+    > py -m unittest discover -s tests -v
+    [WinError 267] El nombre del directorio no es válido
+    => PROBLEMA (código -1)
+
+[6] Ejecutar el bloque de Wilberth (README: 'Ran 4 tests' y 'OK')
+    > py -m unittest discover -s tests -k SeguridadWilberth -v
+    [WinError 267] El nombre del directorio no es válido
+    => PROBLEMA (código -1)
+
+[7] Iniciar la API local (README: python servidor.py) y comprobar /health
+Traceback (most recent call last):
+  File "C:\Users\herna\Documents\Laboratorio_QA\equipo\reproducibilidad.py", line 36, in <module>
+    srv = subprocess.Popen([PY if PY != "py" else "py", "servidor.py"], cwd=lab, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+  File "C:\Users\herna\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\herna\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1554, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+NotADirectoryError: [WinError 267] El nombre del directorio no es válido
