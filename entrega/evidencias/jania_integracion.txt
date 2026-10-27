@@ -1,0 +1,7 @@
+test_tc10_sec04_limite_inferior_0_se_acepta_por_http (test_integracion_http.IntegracionHttpLimitesNota.test_tc10_sec04_limite_inferior_0_se_acepta_por_http) ... ok
+test_tc11_sec04_limite_superior_100_se_acepta_por_http (test_integracion_http.IntegracionHttpLimitesNota.test_tc11_sec04_limite_superior_100_se_acepta_por_http) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.055s
+
+OK
