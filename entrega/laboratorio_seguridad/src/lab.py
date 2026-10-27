@@ -32,7 +32,8 @@ def autenticar(estado, token):
     sesion = estado["sesiones"].get(token)
     if sesion is None:
         return None
-    # TODO SEC-03: investigar el tratamiento de sesiones revocadas o expiradas.
+    if sesion["revocada"] or sesion["expirada"]:
+        return None
     return USUARIOS[sesion["usuario"]]
 
 
