@@ -1,62 +1,49 @@
 
-[1] Clonar el repositorio (README: Requisitos e instalación)
+[1] Clonar el repositorio (README: Requisitos e instalación), intento 1
     > git clone https://github.com/WGuillenDev/laboratorio-pruebas-seguridad.git
     Cloning into 'laboratorio-pruebas-seguridad'...
-    fatal: unable to access 'https://github.com/WGuillenDev/laboratorio-pruebas-seguridad.git/': Could not resolve host: github.com
-    => PROBLEMA (código 128)
+    => OK (código 0)
 
 [2] Cambiar a la rama indicada
     > git switch wil
-    [WinError 267] El nombre del directorio no es válido
-    => PROBLEMA (código -1)
+    branch 'wil' set up to track 'origin/wil'.
+    Switched to a new branch 'wil'
+    => OK (código 0)
 
 [3] Comprobar Python con el comando del README
     > python --version
-    [WinError 267] El nombre del directorio no es válido
-    => PROBLEMA (código -1)
-
-[3b] Alternativa del lanzador de Windows (no está en el README)
-    > py --version
-    [WinError 267] El nombre del directorio no es válido
-    => PROBLEMA (código -1)
+    Python 3.11.9
+    => OK (código 0)
 
 [4] Comprobar Git
     > git --version
-    [WinError 267] El nombre del directorio no es válido
-    => PROBLEMA (código -1)
+    git version 2.54.0.windows.1
+    => OK (código 0)
 
 [5] Ejecutar la suite completa (README: 'Ran 6 tests' y 'FAILED (failures=1)')
-    > py -m unittest discover -s tests -v
-    [WinError 267] El nombre del directorio no es válido
-    => PROBLEMA (código -1)
+    > python -m unittest discover -s tests -v
+    AssertionError: 401 != 200
+    
+    ----------------------------------------------------------------------
+    Ran 6 tests in 0.002s
+    
+    FAILED (failures=1)
+    => OK (código 1)
 
 [6] Ejecutar el bloque de Wilberth (README: 'Ran 4 tests' y 'OK')
-    > py -m unittest discover -s tests -k SeguridadWilberth -v
-    [WinError 267] El nombre del directorio no es válido
-    => PROBLEMA (código -1)
+    > python -m unittest discover -s tests -k SeguridadWilberth -v
+    test_tc07_sec02_estudiante_y_admin_no_modifican_notas (test_laboratorio.SeguridadWilberth.test_tc07_sec02_estudiante_y_admin_no_modifican_notas) ... ok
+    
+    ----------------------------------------------------------------------
+    Ran 4 tests in 0.001s
+    
+    OK
+    => OK (código 0)
 
 [7] Iniciar la API local (README: python servidor.py) y comprobar /health
-Traceback (most recent call last):
-  File "C:\Users\herna\Documents\Laboratorio_QA\equipo\reproducibilidad.py", line 36, in <module>
-    srv = subprocess.Popen([PY if PY != "py" else "py", "servidor.py"], cwd=lab, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-  File "C:\Users\herna\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1039, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                        pass_fds, cwd, env,
-                        ^^^^^^^^^^^^^^^^^^^
-    ...<5 lines>...
-                        gid, gids, uid, umask,
-                        ^^^^^^^^^^^^^^^^^^^^^^
-                        start_new_session, process_group)
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\herna\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1554, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-                             # no special security
-                             ^^^^^^^^^^^^^^^^^^^^^
-    ...<4 lines>...
-                             cwd,
-                             ^^^^
-                             startupinfo)
-                             ^^^^^^^^^^^^
-NotADirectoryError: [WinError 267] El nombre del directorio no es válido
+    7a GET /health: HTTP 200 {"estado": "laboratorio"}  => OK
+    7b Consulta del expediente propio (lab-ana): HTTP 200 {"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}  => OK
+    7c Docente de Central consulta 202 (README: debe responder 403): HTTP 403 {"error": "Operación denegada"}  => OK
+    Servidor detenido (equivale a Ctrl+C). README: reiniciar servidor.py restablece los datos.
+
+Resumen: 9/9 pasos sin problemas. Comando de Python usado: python

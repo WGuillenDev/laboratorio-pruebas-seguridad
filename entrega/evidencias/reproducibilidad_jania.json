@@ -1,0 +1,77 @@
+{
+ "python": "python",
+ "resultados": [
+  {
+   "paso": 1,
+   "descripcion": "Clonar el repositorio (README: Requisitos e instalación), intento 1",
+   "comando": "git clone https://github.com/WGuillenDev/laboratorio-pruebas-seguridad.git",
+   "codigo": 0,
+   "ok": true,
+   "salida": "Cloning into 'laboratorio-pruebas-seguridad'..."
+  },
+  {
+   "paso": 2,
+   "descripcion": "Cambiar a la rama indicada",
+   "comando": "git switch wil",
+   "codigo": 0,
+   "ok": true,
+   "salida": "branch 'wil' set up to track 'origin/wil'.\nSwitched to a new branch 'wil'"
+  },
+  {
+   "paso": 3,
+   "descripcion": "Comprobar Python con el comando del README",
+   "comando": "python --version",
+   "codigo": 0,
+   "ok": true,
+   "salida": "Python 3.11.9"
+  },
+  {
+   "paso": 4,
+   "descripcion": "Comprobar Git",
+   "comando": "git --version",
+   "codigo": 0,
+   "ok": true,
+   "salida": "git version 2.54.0.windows.1"
+  },
+  {
+   "paso": 5,
+   "descripcion": "Ejecutar la suite completa (README: 'Ran 6 tests' y 'FAILED (failures=1)')",
+   "comando": "python -m unittest discover -s tests -v",
+   "codigo": 1,
+   "ok": true,
+   "salida": "AssertionError: 401 != 200\n\n----------------------------------------------------------------------\nRan 6 tests in 0.002s\n\nFAILED (failures=1)"
+  },
+  {
+   "paso": 6,
+   "descripcion": "Ejecutar el bloque de Wilberth (README: 'Ran 4 tests' y 'OK')",
+   "comando": "python -m unittest discover -s tests -k SeguridadWilberth -v",
+   "codigo": 0,
+   "ok": true,
+   "salida": "test_tc07_sec02_estudiante_y_admin_no_modifican_notas (test_laboratorio.SeguridadWilberth.test_tc07_sec02_estudiante_y_admin_no_modifican_notas) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK"
+  },
+  {
+   "paso": "7a",
+   "descripcion": "GET /health",
+   "comando": "curl.exe /health",
+   "codigo": 200,
+   "ok": true,
+   "salida": "{\"estado\": \"laboratorio\"}"
+  },
+  {
+   "paso": "7b",
+   "descripcion": "Consulta del expediente propio (lab-ana)",
+   "comando": "curl.exe /expedientes/101",
+   "codigo": 200,
+   "ok": true,
+   "salida": "{\"id\": \"101\", \"estudiante\": \"ana\", \"sede\": \"Central\", \"nota\": 82}"
+  },
+  {
+   "paso": "7c",
+   "descripcion": "Docente de Central consulta 202 (README: debe responder 403)",
+   "comando": "curl.exe /expedientes/202",
+   "codigo": 403,
+   "ok": true,
+   "salida": "{\"error\": \"Operación denegada\"}"
+  }
+ ]
+}
