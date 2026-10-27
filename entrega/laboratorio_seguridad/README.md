@@ -6,11 +6,10 @@ Evaluación de seguridad de una API local de expedientes académicos mediante re
 
 Verificar que la consulta de expedientes y la modificación de calificaciones respetan los permisos de cada rol y sede, la validez de las sesiones y las reglas de validación. Los resultados permitirán documentar defectos, comprobar sus correcciones y fundamentar una decisión de liberación considerando el riesgo residual.
 
-## Estado actual (versión `8e98b14`)
+## Estado actual (versión `0d74bec`, rama `jania`)
 
-- Corregidos: lectura por titular, rol y sede (H-01, H-03); validación de notas (H-04); auditoría de lecturas sin token (H-05, parte de lectura).
-- Abiertos (bloque de Jania): sesión revocada/expirada (H-02), cambio de nota entre sedes (H-06) y auditoría de actualizaciones (H-05).
-- Dictamen provisional: **no liberar**. Los resultados, indicadores y el dictamen están en [informe_seguridad.pdf](../informe_seguridad.pdf).
+- Corregidos: lectura por titular, rol y sede (H-01, H-03); validación de notas (H-04); auditoría de lecturas y escrituras sin token (H-05); sesión revocada/expirada (H-02, TDD 2); cambio de nota entre sedes (H-06).
+- Pendiente del equipo: inspección cruzada, prueba de reproducibilidad, dictamen final e integración de `wil` y `jania` en `main`.
 
 **Uso exclusivamente local:** ejecutar el servidor en `127.0.0.1` y utilizar únicamente las cuentas y los datos sintéticos proporcionados. La autenticación con tokens ficticios es didáctica y no es apta para producción. No exponer el servidor a Internet ni conectarlo a información real.
 
@@ -42,27 +41,25 @@ El avance de este corte se publica en `wil`; `main` solo lo incluirá después d
 python -m unittest discover -s tests -v
 ```
 
-Las seis pruebas unitarias actuales no requieren iniciar el servidor. Cada prueba crea un estado independiente mediante `estado_inicial()` en `setUp`.
+La suite tiene siete pruebas de unidad y dos de integración HTTP; las de integración levantan `servidor.py` solas en un puerto libre, así que **no hace falta iniciar el servidor**. Cada prueba crea un estado independiente mediante `estado_inicial()` en `setUp`.
 
-Resultado esperado en esta versión: `Ran 6 tests` y `FAILED (failures=1)`. El único fallo es `test_rojo_sesion_revocada_no_permita_lecturas` (`401 != 200`), que demuestra el defecto H-02. Es un fallo del producto, no del entorno: se conserva como rojo del segundo ciclo TDD.
+Resultado esperado en esta versión: `Ran 9 tests` y `OK`.
 
-Para ejecutar únicamente los cuatro casos automatizados de Wilberth:
+Ejecutar solo un bloque:
 
 ```powershell
 python -m unittest discover -s tests -k SeguridadWilberth -v
+python -m unittest discover -s tests -k SeguridadJania -v
+python -m unittest discover -s tests -p test_integracion_http.py -v
 ```
-
-Resultado esperado: `Ran 4 tests` y `OK`.
-
-Las pruebas de integración HTTP (TC-10, TC-11) se agregarán en el bloque de Jania; este apartado indicará entonces cómo ejecutarlas.
 
 | Caso | Ejecución actual | Responsable |
 | --- | --- | --- |
 | TC-01, TC-03, TC-04, TC-07 | Unidad automatizada, clase `SeguridadWilberth` | Wilberth |
 | TC-05, TC-12 | HTTP manual con curl; ver "Solicitudes de referencia" | Wilberth |
-| TC-02, TC-08 | Ejemplos originales por completar; TC-08 ya demuestra un defecto | Jania |
-| TC-06, TC-09 | HTTP manual pendiente | Jania |
-| TC-10, TC-11 | Integración HTTP automatizada pendiente | Jania |
+| TC-02, TC-06, TC-08 | Unidad automatizada, clase `SeguridadJania` (TC-08 = TDD 2) | Jania |
+| TC-06, TC-09 | HTTP manual; ver `evidencias/resultados_bloque_jania.md` | Jania |
+| TC-10, TC-11 | Integración HTTP automatizada, `tests/test_integracion_http.py` | Jania |
 
 Los diseños completos, estados y vínculos requisito-riesgo-caso están en [la matriz de trazabilidad](../matriz_trazabilidad.csv). Un método de ejemplo aprobado no acredita por sí solo todos los oráculos del caso planificado.
 

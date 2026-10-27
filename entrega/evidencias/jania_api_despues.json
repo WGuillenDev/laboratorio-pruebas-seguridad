@@ -1,0 +1,51 @@
+﻿[
+    {
+        "caso":  "TC-06",
+        "paso":  "1. Admin lee 202 (estado previo)",
+        "comando":  "curl.exe -X GET -H \"Authorization: Bearer lab-admin\" http://127.0.0.1:8765/expedientes/202",
+        "http":  "200",
+        "respuesta":  "{\"id\": \"202\", \"estudiante\": \"luis\", \"sede\": \"Pacifico\", \"nota\": 91}"
+    },
+    {
+        "caso":  "TC-06",
+        "paso":  "2. Maria (Central) cambia la nota del 202 (Pacifico)",
+        "comando":  "curl.exe -X POST -H \"Authorization: Bearer lab-maria\" -H \"Content-Type: application/json\" --data-binary \u0027{\"nota\":70}\u0027 http://127.0.0.1:8765/expedientes/202/nota",
+        "http":  "403",
+        "respuesta":  "{\"error\": \"Operación denegada\"}"
+    },
+    {
+        "caso":  "TC-06",
+        "paso":  "3. Admin lee 202 (debe seguir en 91)",
+        "comando":  "curl.exe -X GET -H \"Authorization: Bearer lab-admin\" http://127.0.0.1:8765/expedientes/202",
+        "http":  "200",
+        "respuesta":  "{\"id\": \"202\", \"estudiante\": \"luis\", \"sede\": \"Pacifico\", \"nota\": 91}"
+    },
+    {
+        "caso":  "TC-09",
+        "paso":  "1. Admin lee 101 (estado previo)",
+        "comando":  "curl.exe -X GET -H \"Authorization: Bearer lab-admin\" http://127.0.0.1:8765/expedientes/101",
+        "http":  "200",
+        "respuesta":  "{\"id\": \"101\", \"estudiante\": \"ana\", \"sede\": \"Central\", \"nota\": 82}"
+    },
+    {
+        "caso":  "TC-09",
+        "paso":  "2. Sesion vencida lee 101",
+        "comando":  "curl.exe -X GET -H \"Authorization: Bearer lab-vencida\" http://127.0.0.1:8765/expedientes/101",
+        "http":  "401",
+        "respuesta":  "{\"error\": \"No autenticado\"}"
+    },
+    {
+        "caso":  "TC-09",
+        "paso":  "3. Sesion vencida cambia la nota del 101",
+        "comando":  "curl.exe -X POST -H \"Authorization: Bearer lab-vencida\" -H \"Content-Type: application/json\" --data-binary \u0027{\"nota\":70}\u0027 http://127.0.0.1:8765/expedientes/101/nota",
+        "http":  "401",
+        "respuesta":  "{\"error\": \"No autenticado\"}"
+    },
+    {
+        "caso":  "TC-09",
+        "paso":  "4. Admin lee 101 (debe seguir en 82)",
+        "comando":  "curl.exe -X GET -H \"Authorization: Bearer lab-admin\" http://127.0.0.1:8765/expedientes/101",
+        "http":  "200",
+        "respuesta":  "{\"id\": \"101\", \"estudiante\": \"ana\", \"sede\": \"Central\", \"nota\": 82}"
+    }
+]
