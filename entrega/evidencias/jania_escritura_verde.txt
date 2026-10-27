@@ -1,0 +1,8 @@
+test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada (test_laboratorio.SeguridadJania.test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada) ... ok
+test_tc06_sec02_docente_no_modifica_nota_de_otra_sede (test_laboratorio.SeguridadJania.test_tc06_sec02_docente_no_modifica_nota_de_otra_sede) ... ok
+test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica (test_laboratorio.SeguridadJania.test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK

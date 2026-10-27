@@ -49,6 +49,11 @@ def _puede_leer(usuario, expediente):
     return usuario["rol"] == "administrador"
 
 
+def _puede_modificar(usuario, expediente):
+    """SEC-02: solo un docente cambia notas, y únicamente de expedientes de su sede."""
+    return usuario["rol"] == "docente" and expediente["sede"] == usuario["sede"]
+
+
 def _nota_valida(nota):
     """Rechaza bool, tipos no numéricos y valores fuera de [0, 100]."""
     return (
@@ -82,13 +87,16 @@ def actualizar_nota(estado, token, expediente_id, nota):
     expediente = estado["expedientes"].get(expediente_id)
     if expediente is None:
         return 404, {"error": "No existe"}
-    if usuario["rol"] != "docente":
+    if not _puede_modificar(usuario, expediente):
         return 403, {"error": "Operación denegada"}
     if not _nota_valida(nota):
         return 400, {"error": "Nota inválida"}
-    # TODO SEC-02 (Jania): comprobar la sede del docente antes de modificar.
     expediente["nota"] = nota
-    estado["auditoria"].append({"accion": "actualizacion", "token": token, "id": expediente_id})
+    estado["auditoria"].append({
+        "accion": "actualizacion",
+        "usuario": usuario["id"],
+        "id": expediente_id,
+    })
     return 200, dict(expediente)
 
 
