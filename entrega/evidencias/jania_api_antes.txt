@@ -1,0 +1,22 @@
+Pruebas HTTP manuales (antes) - servidor reiniciado por caso - 2026-10-26T21:47:51
+>>> TC-06  1. Admin lee 202 (estado previo)
+    curl.exe -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+    HTTP 200  {"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 91}
+>>> TC-06  2. Maria (Central) cambia la nota del 202 (Pacifico)
+    curl.exe -X POST -H "Authorization: Bearer lab-maria" -H "Content-Type: application/json" --data-binary '{"nota":70}' http://127.0.0.1:8765/expedientes/202/nota
+    HTTP 200  {"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 70}
+>>> TC-06  3. Admin lee 202 (debe seguir en 91)
+    curl.exe -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/202
+    HTTP 200  {"id": "202", "estudiante": "luis", "sede": "Pacifico", "nota": 70}
+>>> TC-09  1. Admin lee 101 (estado previo)
+    curl.exe -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+    HTTP 200  {"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+>>> TC-09  2. Sesion vencida lee 101
+    curl.exe -X GET -H "Authorization: Bearer lab-vencida" http://127.0.0.1:8765/expedientes/101
+    HTTP 200  {"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}
+>>> TC-09  3. Sesion vencida cambia la nota del 101
+    curl.exe -X POST -H "Authorization: Bearer lab-vencida" -H "Content-Type: application/json" --data-binary '{"nota":70}' http://127.0.0.1:8765/expedientes/101/nota
+    HTTP 403  {"error": "Operación denegada"}
+>>> TC-09  4. Admin lee 101 (debe seguir en 82)
+    curl.exe -X GET -H "Authorization: Bearer lab-admin" http://127.0.0.1:8765/expedientes/101
+    HTTP 200  {"id": "101", "estudiante": "ana", "sede": "Central", "nota": 82}

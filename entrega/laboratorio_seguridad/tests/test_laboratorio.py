@@ -1,4 +1,4 @@
-"""Casos de Wilberth y ejemplos originales pendientes del bloque de Jania."""
+"""Casos de Wilberth (SeguridadWilberth) y de Jania (SeguridadJania)."""
 import copy
 import unittest
 
@@ -67,7 +67,7 @@ class SeguridadWilberth(unittest.TestCase):
 
 
 class SeguridadExpedientes(unittest.TestCase):
-    """Ejemplos originales: Jania completará TC-02 y su ciclo de sesiones TC-08."""
+    """Ejemplo original pendiente: Jania lo amplía como TC-02."""
 
     def setUp(self):
         self.estado = estado_inicial()
@@ -77,13 +77,43 @@ class SeguridadExpedientes(unittest.TestCase):
         self.assertEqual(200, codigo)
         self.assertEqual(85, datos.get("nota"))
 
-    def test_rojo_sesion_revocada_no_permita_lecturas(self):
-        codigo, _ = revocar_sesion(self.estado, "lab-ana")
-        self.assertEqual(200, codigo)
-        codigo, datos = leer_expediente(self.estado, "lab-ana", "101")
-        self.assertEqual(401, codigo)
-        self.assertNotIn("nota", datos)
 
+class SeguridadJania(unittest.TestCase):
+    """Casos del bloque de Jania: sesiones, escritura por sede y auditoría de escritura."""
+
+    def setUp(self):
+        self.estado = estado_inicial()
+        self.expedientes_antes = copy.deepcopy(self.estado["expedientes"])
+
+    def assertSinDatosProtegidos(self, datos):
+        for campo in ("id", "estudiante", "sede", "nota"):
+            with self.subTest(campo=campo):
+                self.assertNotIn(campo, datos, f"La respuesta filtra el campo {campo}")
+
+    def assertExpedientesIntactos(self):
+        self.assertEqual(self.expedientes_antes, self.estado["expedientes"],
+                         "La operación rechazada no debe modificar ningún expediente")
+
+    def test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica(self):
+        variantes = {
+            "revocada": "lab-maria",
+            "token_vacio": "",
+            "token_inexistente": "lab-desconocido",
+        }
+        for nombre, token in variantes.items():
+            with self.subTest(variante=nombre):
+                self.estado = estado_inicial()
+                self.expedientes_antes = copy.deepcopy(self.estado["expedientes"])
+                if nombre == "revocada":
+                    codigo, _ = revocar_sesion(self.estado, token)
+                    self.assertEqual(200, codigo, "Precondición: la revocación debe aceptarse")
+                codigo, datos = leer_expediente(self.estado, token, "101")
+                self.assertEqual(401, codigo, f"Sesión {nombre}: la lectura debe rechazarse con 401")
+                self.assertSinDatosProtegidos(datos)
+                codigo, datos = actualizar_nota(self.estado, token, "101", 70)
+                self.assertEqual(401, codigo, f"Sesión {nombre}: el cambio de nota debe rechazarse con 401")
+                self.assertSinDatosProtegidos(datos)
+                self.assertExpedientesIntactos()
 
 if __name__ == "__main__":
     unittest.main()

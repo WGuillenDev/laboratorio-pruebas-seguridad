@@ -1,0 +1,16 @@
+test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica (test_laboratorio.SeguridadJania.test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica) ... 
+  test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica (test_laboratorio.SeguridadJania.test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica) (variante='revocada') ... FAIL
+
+======================================================================
+FAIL: test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica (test_laboratorio.SeguridadJania.test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica) (variante='revocada')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\herna\Documents\Laboratorio_QA\equipo\repo\entrega\laboratorio_seguridad\tests\test_laboratorio.py", line 111, in test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica
+    self.assertEqual(401, codigo, f"Sesión {nombre}: la lectura debe rechazarse con 401")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 401 != 200 : Sesión revocada: la lectura debe rechazarse con 401
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)
