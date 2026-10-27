@@ -1,0 +1,26 @@
+test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada (test_laboratorio.SeguridadJania.test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada) ... FAIL
+test_tc06_sec02_docente_no_modifica_nota_de_otra_sede (test_laboratorio.SeguridadJania.test_tc06_sec02_docente_no_modifica_nota_de_otra_sede) ... FAIL
+test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica (test_laboratorio.SeguridadJania.test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica) ... ok
+
+======================================================================
+FAIL: test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada (test_laboratorio.SeguridadJania.test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\herna\Documents\Laboratorio_QA\equipo\repo\entrega\laboratorio_seguridad\tests\test_laboratorio.py", line 115, in test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada
+    self.assertEqual("maria", evento.get("usuario"), "La auditoría debe identificar a la docente")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'maria' != None : La auditoría debe identificar a la docente
+
+======================================================================
+FAIL: test_tc06_sec02_docente_no_modifica_nota_de_otra_sede (test_laboratorio.SeguridadJania.test_tc06_sec02_docente_no_modifica_nota_de_otra_sede)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\herna\Documents\Laboratorio_QA\equipo\repo\entrega\laboratorio_seguridad\tests\test_laboratorio.py", line 122, in test_tc06_sec02_docente_no_modifica_nota_de_otra_sede
+    self.assertEqual(403, codigo, "María (Central) no debe cambiar la nota del 202 (Pacífico)")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 403 != 200 : María (Central) no debe cambiar la nota del 202 (Pacífico)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+FAILED (failures=2)

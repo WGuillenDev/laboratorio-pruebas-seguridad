@@ -66,18 +66,6 @@ class SeguridadWilberth(unittest.TestCase):
                 self.assertExpedientesIntactos()
 
 
-class SeguridadExpedientes(unittest.TestCase):
-    """Ejemplo original pendiente: Jania lo amplía como TC-02."""
-
-    def setUp(self):
-        self.estado = estado_inicial()
-
-    def test_docente_actualiza_nota_en_su_sede(self):
-        codigo, datos = actualizar_nota(self.estado, "lab-maria", "101", 85)
-        self.assertEqual(200, codigo)
-        self.assertEqual(85, datos.get("nota"))
-
-
 class SeguridadJania(unittest.TestCase):
     """Casos del bloque de Jania: sesiones, escritura por sede y auditoría de escritura."""
 
@@ -114,6 +102,28 @@ class SeguridadJania(unittest.TestCase):
                 self.assertEqual(401, codigo, f"Sesión {nombre}: el cambio de nota debe rechazarse con 401")
                 self.assertSinDatosProtegidos(datos)
                 self.assertExpedientesIntactos()
+
+    def test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada(self):
+        codigo, datos = actualizar_nota(self.estado, "lab-maria", "101", 85)
+        self.assertEqual(200, codigo, "María debe poder cambiar la nota de un expediente de Central")
+        self.assertEqual(85, datos.get("nota"))
+        self.assertEqual(85, self.estado["expedientes"]["101"]["nota"], "El cambio debe persistir")
+        self.assertEqual(self.expedientes_antes["202"], self.estado["expedientes"]["202"],
+                         "El expediente de otra sede no debe cambiar")
+        evento = self.estado["auditoria"][-1]
+        self.assertEqual("actualizacion", evento.get("accion"))
+        self.assertEqual("maria", evento.get("usuario"), "La auditoría debe identificar a la docente")
+        self.assertEqual("101", evento.get("id"))
+        self.assertNotIn("token", evento, "La auditoría no debe almacenar credenciales")
+        self.assertNotIn("lab-", repr(evento), "La auditoría contiene un token sintético")
+
+    def test_tc06_sec02_docente_no_modifica_nota_de_otra_sede(self):
+        codigo, datos = actualizar_nota(self.estado, "lab-maria", "202", 70)
+        self.assertEqual(403, codigo, "María (Central) no debe cambiar la nota del 202 (Pacífico)")
+        self.assertSinDatosProtegidos(datos)
+        self.assertEqual(91, self.estado["expedientes"]["202"]["nota"], "La nota original debe conservarse")
+        self.assertExpedientesIntactos()
+
 
 if __name__ == "__main__":
     unittest.main()
