@@ -1,0 +1,29 @@
+Inspección cruzada de Wilberth Guillén Aguilar sobre el bloque de Jania Hernández Dormuz
+Fecha: 2026-10-27 · Entorno: Windows 11, Python 3.14.7, unittest
+Script: evidencias/inspeccion_wilberth_mutantes.py (aplica un mutante por vez a una copia de src/lab.py y ejecuta la suite real)
+Comando (desde entrega/): python -I evidencias/inspeccion_wilberth_mutantes.py laboratorio_seguridad
+Objetos: política de escritura _puede_modificar / actualizar_nota (src/lab.py) · TC-02 · TC-06 (tests/test_laboratorio.py)
+
+=== ANTES: suite de la versión revisada 8b63a19 ===
+Línea base (sin mutantes): OK []
+
+M-L2  SOBREVIVE  Docente lee cualquier sede (J-01)      -> ninguna prueba automatizada falla
+M-E1  DETECTADO  Docente modifica cualquier sede        -> test_tc06_sec02_docente_no_modifica_nota_de_otra_sede
+M-E2  DETECTADO  Cualquier rol de la sede modifica      -> test_tc07_sec02_estudiante_y_admin_no_modifican_notas
+M-E3  DETECTADO  Nadie puede modificar                  -> test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada, test_tc10_sec04_limite_inferior_0_se_acepta_por_http, test_tc11_sec04_limite_superior_100_se_acepta_por_http
+M-E4  SOBREVIVE  Se omite el rango 0-100                -> ninguna prueba automatizada falla
+M-E5  DETECTADO  La auditoría guarda el token           -> test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada, test_tc10_sec04_limite_inferior_0_se_acepta_por_http, test_tc11_sec04_limite_superior_100_se_acepta_por_http
+M-E6  DETECTADO  Se audita antes de autorizar           -> test_tc10_sec04_limite_inferior_0_se_acepta_por_http, test_tc11_sec04_limite_superior_100_se_acepta_por_http
+M-E7  SOBREVIVE  Se valida la nota antes de autorizar   -> ninguna prueba automatizada falla
+
+=== DESPUÉS: suite con las acciones de la inspección (TC-04, TC-05, TC-06, TC-12) ===
+Línea base (sin mutantes): OK []
+
+M-L2  DETECTADO  Docente lee cualquier sede (J-01)      -> test_tc05_sec01_docente_no_lee_expediente_de_otra_sede
+M-E1  DETECTADO  Docente modifica cualquier sede        -> test_tc06_sec02_docente_no_modifica_nota_de_otra_sede, test_tc06_sec02_otra_sede_con_nota_invalida_responde_403_antes_que_400
+M-E2  DETECTADO  Cualquier rol de la sede modifica      -> test_tc07_sec02_estudiante_y_admin_no_modifican_notas
+M-E3  DETECTADO  Nadie puede modificar                  -> test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada, test_tc10_sec04_limite_inferior_0_se_acepta_por_http, test_tc11_sec04_limite_superior_100_se_acepta_por_http, test_tc12_sec04_nota_fuera_de_rango_o_tipo_invalido_no_persiste
+M-E4  DETECTADO  Se omite el rango 0-100                -> test_tc12_sec04_nota_fuera_de_rango_o_tipo_invalido_no_persiste
+M-E5  DETECTADO  La auditoría guarda el token           -> test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada, test_tc10_sec04_limite_inferior_0_se_acepta_por_http, test_tc11_sec04_limite_superior_100_se_acepta_por_http
+M-E6  DETECTADO  Se audita antes de autorizar           -> test_tc06_sec02_docente_no_modifica_nota_de_otra_sede, test_tc10_sec04_limite_inferior_0_se_acepta_por_http, test_tc11_sec04_limite_superior_100_se_acepta_por_http, test_tc12_sec04_nota_fuera_de_rango_o_tipo_invalido_no_persiste
+M-E7  DETECTADO  Se valida la nota antes de autorizar   -> test_tc06_sec02_otra_sede_con_nota_invalida_responde_403_antes_que_400
