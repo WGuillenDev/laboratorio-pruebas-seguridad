@@ -6,10 +6,11 @@ Evaluación de seguridad de una API local de expedientes académicos mediante re
 
 Verificar que la consulta de expedientes y la modificación de calificaciones respetan los permisos de cada rol y sede, la validez de las sesiones y las reglas de validación. Los resultados permitirán documentar defectos, comprobar sus correcciones y fundamentar una decisión de liberación considerando el riesgo residual.
 
-## Estado actual (versión `0d74bec`, rama `jania`)
+## Estado final (versión `0b456db`)
 
-- Corregidos: lectura por titular, rol y sede (H-01, H-03); validación de notas (H-04); auditoría de lecturas y escrituras sin token (H-05); sesión revocada/expirada (H-02, TDD 2); cambio de nota entre sedes (H-06).
-- Pendiente del equipo: inspección cruzada, prueba de reproducibilidad, dictamen final e integración de `wil` y `jania` en `main`.
+- Corregidos y verificados: lectura por titular, rol y sede (H-01, H-03); validación de notas (H-04); auditoría de lecturas y escrituras sin token (H-05); sesión revocada/expirada (H-02, TDD 2); cambio de nota entre sedes (H-06).
+- Revisiones: inspección cruzada en ambos sentidos ([Jania](../evidencias/inspeccion_cruzada_jania.md) y [Wilberth](../evidencias/inspeccion_cruzada_wilberth.md)) y [prueba de reproducibilidad](../evidencias/reproducibilidad_jania.md) siguiendo este README.
+- Riesgo residual: las lecturas denegadas no se registran en la bitácora (J-02). Dictamen: liberar con condiciones (ver informe).
 
 **Uso exclusivamente local:** ejecutar el servidor en `127.0.0.1` y utilizar únicamente las cuentas y los datos sintéticos proporcionados. La autenticación con tokens ficticios es didáctica y no es apta para producción. No exponer el servidor a Internet ni conectarlo a información real.
 
@@ -27,13 +28,12 @@ Desde la carpeta donde se almacenará el repositorio:
 ```powershell
 git clone https://github.com/WGuillenDev/laboratorio-pruebas-seguridad.git
 cd laboratorio-pruebas-seguridad
-git switch wil
 python --version
 git --version
 cd entrega/laboratorio_seguridad
 ```
 
-El avance de este corte se publica en `wil`; `main` solo lo incluirá después de aprobar el PR. Si ya está clonado, actualizar las referencias antes de seleccionar esa rama y abrir una terminal en `entrega/laboratorio_seguridad`. Los comandos de pruebas y servidor siguientes se ejecutan desde esa carpeta.
+La versión de entrega está en `main`. Si ya está clonado, ejecutar `git switch main` y `git pull` antes de abrir una terminal en `entrega/laboratorio_seguridad`. Los comandos de pruebas y servidor siguientes se ejecutan desde esa carpeta.
 
 ## Ejecutar las pruebas automatizadas
 
@@ -41,9 +41,9 @@ El avance de este corte se publica en `wil`; `main` solo lo incluirá después d
 python -m unittest discover -s tests -v
 ```
 
-La suite tiene siete pruebas de unidad y dos de integración HTTP; las de integración levantan `servidor.py` solas en un puerto libre, así que **no hace falta iniciar el servidor**. Cada prueba crea un estado independiente mediante `estado_inicial()` en `setUp`.
+La suite tiene diez pruebas de unidad y dos de integración HTTP; las de integración levantan `servidor.py` solas en un puerto libre, así que **no hace falta iniciar el servidor**. Cada prueba crea un estado independiente mediante `estado_inicial()` en `setUp`.
 
-Resultado esperado en esta versión: `Ran 9 tests` y `OK`.
+Resultado esperado en esta versión: `Ran 12 tests` y `OK`.
 
 Ejecutar solo un bloque:
 
@@ -55,7 +55,7 @@ python -m unittest discover -s tests -p test_integracion_http.py -v
 
 | Caso | Ejecución actual | Responsable |
 | --- | --- | --- |
-| TC-01, TC-03, TC-04, TC-07 | Unidad automatizada, clase `SeguridadWilberth` | Wilberth |
+| TC-01, TC-03, TC-04 (TDD 1), TC-05, TC-07, TC-12 | Unidad automatizada, clase `SeguridadWilberth` | Wilberth |
 | TC-05, TC-12 | HTTP manual con curl; ver "Solicitudes de referencia" | Wilberth |
 | TC-02, TC-06, TC-08 | Unidad automatizada, clase `SeguridadJania` (TC-08 = TDD 2) | Jania |
 | TC-06, TC-09 | HTTP manual; ver `evidencias/resultados_bloque_jania.md` | Jania |
@@ -102,7 +102,7 @@ Las sesiones ausentes, desconocidas, revocadas o vencidas deben impedir el acces
 | Entrada inválida | `400` |
 | Recurso inexistente | `404` |
 
-Esta política describe el comportamiento que se debe verificar. Existen controles pendientes indicados en el estado actual. Las denegaciones no deben incluir notas ni información protegida; las operaciones rechazadas deben conservar los expedientes sin cambios. Comprobar únicamente el código HTTP no basta para validar una prueba.
+Esta política describe el comportamiento que se debe verificar. Las denegaciones no deben incluir notas ni información protegida; las operaciones rechazadas deben conservar los expedientes sin cambios. Comprobar únicamente el código HTTP no basta para validar una prueba.
 
 ## Solicitudes de referencia
 
@@ -150,14 +150,13 @@ Comparar ambos expedientes por GET autorizado antes y después de cada intento: 
 
 El reinicio restaura los expedientes, las sesiones y la auditoría en memoria. El expediente 101 comienza con nota **82** y el 202 con **91**. Las sesiones ordinarias vuelven a estar activas y `lab-vencida` permanece expirada. No hay base de datos ni archivos de persistencia que deban eliminarse.
 
-Para repetir la suite unitaria en estado limpio, ejecutar de nuevo el comando de `unittest`: `setUp` restablece los datos antes de cada prueba. Las dos ejecuciones finales deberán registrarse con la versión del proyecto, la versión de Python, el comando utilizado y el resultado real.
+Para repetir la suite unitaria en estado limpio, ejecutar de nuevo el comando de `unittest`: `setUp` restablece los datos antes de cada prueba. Las dos ejecuciones finales están registradas con versión, Python, comando y resultado en [corrida 1](../evidencias/suite_final_corrida1.txt) y [corrida 2](../evidencias/suite_final_corrida2.txt).
 
 ## Estructura de la entrega
 
 ```text
 entrega/
 ├── informe_seguridad.pdf
-├── informe_seguridad.docx
 ├── laboratorio_seguridad/
 │   ├── README.md
 │   ├── servidor.py
@@ -165,7 +164,8 @@ entrega/
 │   │   ├── __init__.py
 │   │   └── lab.py
 │   └── tests/
-│       └── test_laboratorio.py
+│       ├── test_laboratorio.py
+│       └── test_integracion_http.py
 ├── evidencias/
 ├── hallazgos.csv
 └── matriz_trazabilidad.csv
@@ -180,8 +180,7 @@ entrega/
 | `../hallazgos.csv` | Defectos demostrados, tratamiento y verificación |
 | `../matriz_trazabilidad.csv` | Vínculos entre requisitos, riesgos, casos y evidencia esperada |
 | `../informe_seguridad.pdf` | Informe técnico, resultados, indicadores y dictamen |
-| `../informe_seguridad.docx` | Fuente editable actual para completar y revisar el informe |
 
-La revisión estática examina el código sin ejecutarlo; las solicitudes HTTP evalúan el comportamiento dinámico. La [revisión estática](../evidencias/revision_estatica.md) identifica los controles pendientes. Las tareas de Jania, incluida la revisión y modificación del informe, se gestionan en el [issue de su bloque](https://github.com/WGuillenDev/laboratorio-pruebas-seguridad/issues/2).
+La revisión estática examina el código sin ejecutarlo; las solicitudes HTTP evalúan el comportamiento dinámico. La [revisión estática](../evidencias/revision_estatica.md) identifica los controles que se corrigieron. Las tareas de Jania se gestionaron en el [issue de su bloque](https://github.com/WGuillenDev/laboratorio-pruebas-seguridad/issues/2).
 
-La matriz distingue casos aprobados, fallidos, bloqueados y no ejecutados. Las dos corridas parciales de Wilberth no sustituyen las dos ejecuciones finales completas después de integrar ambos bloques.
+La matriz distingue casos aprobados, fallidos, bloqueados y no ejecutados. Las dos ejecuciones finales completas se hicieron después de integrar ambos bloques.

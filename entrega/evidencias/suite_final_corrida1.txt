@@ -1,0 +1,23 @@
+Corrida final 1 en estado limpio (copia nueva del commit, sin __pycache__)
+Versión: 0b456db9bb79ce76da67ba8c2019478b78f309c2 (rama wil)
+Fecha: 2026-10-27 19:16:09 -0600
+Entorno: Windows 11, Python 3.14.7, unittest
+Comando (desde entrega/laboratorio_seguridad): python -m unittest discover -s tests -v
+
+test_tc10_sec04_limite_inferior_0_se_acepta_por_http (test_integracion_http.IntegracionHttpLimitesNota.test_tc10_sec04_limite_inferior_0_se_acepta_por_http) ... ok
+test_tc11_sec04_limite_superior_100_se_acepta_por_http (test_integracion_http.IntegracionHttpLimitesNota.test_tc11_sec04_limite_superior_100_se_acepta_por_http) ... ok
+test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada (test_laboratorio.SeguridadJania.test_tc02_sec02_docente_modifica_nota_de_su_sede_y_queda_auditada) ... ok
+test_tc06_sec02_docente_no_modifica_nota_de_otra_sede (test_laboratorio.SeguridadJania.test_tc06_sec02_docente_no_modifica_nota_de_otra_sede) ... ok
+test_tc06_sec02_otra_sede_con_nota_invalida_responde_403_antes_que_400 (test_laboratorio.SeguridadJania.test_tc06_sec02_otra_sede_con_nota_invalida_responde_403_antes_que_400) ... ok
+test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica (test_laboratorio.SeguridadJania.test_tc08_sec03_sesion_revocada_o_invalida_no_lee_ni_modifica) ... ok
+test_tc01_sec01_estudiante_lee_su_expediente_sin_alterarlo (test_laboratorio.SeguridadWilberth.test_tc01_sec01_estudiante_lee_su_expediente_sin_alterarlo) ... ok
+test_tc03_sec01_administrador_lee_ambas_sedes_sin_alterarlas (test_laboratorio.SeguridadWilberth.test_tc03_sec01_administrador_lee_ambas_sedes_sin_alterarlas) ... ok
+test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos (test_laboratorio.SeguridadWilberth.test_tc04_sec01_estudiante_no_lee_expediente_ajeno_ni_filtra_datos) ... ok
+test_tc05_sec01_docente_no_lee_expediente_de_otra_sede (test_laboratorio.SeguridadWilberth.test_tc05_sec01_docente_no_lee_expediente_de_otra_sede) ... ok
+test_tc07_sec02_estudiante_y_admin_no_modifican_notas (test_laboratorio.SeguridadWilberth.test_tc07_sec02_estudiante_y_admin_no_modifican_notas) ... ok
+test_tc12_sec04_nota_fuera_de_rango_o_tipo_invalido_no_persiste (test_laboratorio.SeguridadWilberth.test_tc12_sec04_nota_fuera_de_rango_o_tipo_invalido_no_persiste) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.049s
+
+OK

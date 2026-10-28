@@ -46,3 +46,5 @@ Cada prueba unitaria crea su estado en `setUp()`; el servidor se reinició antes
 ## Dictamen provisional
 
 **NO LIBERAR.** H-02 (sesión revocada) y H-06 (escritura entre sedes) son defectos críticos abiertos; una tasa de aprobación alta no compensa un fallo de autorización. Responsable de la decisión hipotética: Wilberth Guillén Aguilar (responsable de calidad), con revisión de Jania Hernández.
+
+> Actualización 27/10/2026: este dictamen corresponde al corte del 25/10. H-02, H-05 y H-06 se corrigieron en el bloque de Jania; el dictamen final (liberar con condiciones) está en el informe, sección 9.3.
